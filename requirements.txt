@@ -1,0 +1,2 @@
+azure-functions
+python-telegram-bot==8.1.1

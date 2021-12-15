@@ -1,0 +1,30 @@
+{
+    "update_id": 816191988,
+    "message": {
+        "message_id": 998489,
+        "from": {
+            "id": 163127655,
+            "is_bot": false,
+            "first_name": "Matheus",
+            "last_name": "do Couto",
+            "username": "matheusdocouto",
+            "language_code": "pt-br"
+        },
+        "chat": {
+            "id": 163127655,
+            "first_name": "Matheus",
+            "last_name": "do Couto",
+            "username": "matheusdocouto",
+            "type": "private"
+        },
+        "date": 1639582980,
+        "text": "/start",
+        "entities": [
+            {
+                "offset": 0,
+                "length": 6,
+                "type": "bot_command"
+            }
+        ]
+    }
+}
