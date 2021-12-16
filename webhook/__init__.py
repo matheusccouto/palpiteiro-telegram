@@ -85,35 +85,42 @@ def format_answer(data):
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     """Runs the Telegram webhook."""
-    body = req.get_json()
-    logging.info("Message received: %s", body)
-
     bot = configure_telegram()
-
-    update = telegram.Update.de_json(body, bot)
-    chat_id = update.effective_message.chat.id
-    text = update.effective_message.text
-
-    if text == "/start":
-        bot.sendMessage(chat_id=chat_id, text="Até quanto você está disposto a pagar?")
-        return func.HttpResponse("Success", status_code=200)
-
-    # Shows that the bot is typing to let user know that it is working.
-    bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
-
-    res = requests.get(
-        url=os.environ["PALPITEIRO_API_URL"],
-        params={
-            "code": os.environ["PALPITEIRO_API_KEY"],
-            "price": extract_price(text),
-            "scheme": extract_scheme(text),
-            "algorithm": ALGORITHM,
-        },
-    )
-
-    answer = format_answer(res.json())
-
-    bot.sendMessage(chat_id=chat_id, text=answer)
-    logging.info("Message sent to ID %s: %s", chat_id, answer)
-
+    bot.sendMessage(chat_id=163127655, text="It works")
     return func.HttpResponse("Success", status_code=200)
+
+
+# def main(req: func.HttpRequest) -> func.HttpResponse:
+#     """Runs the Telegram webhook."""
+#     body = req.get_json()
+#     logging.info("Message received: %s", body)
+
+#     bot = configure_telegram()
+
+#     update = telegram.Update.de_json(body, bot)
+#     chat_id = update.effective_message.chat.id
+#     text = update.effective_message.text
+
+#     if text == "/start":
+#         bot.sendMessage(chat_id=chat_id, text="Até quanto você está disposto a pagar?")
+#         return func.HttpResponse("Success", status_code=200)
+
+#     # Shows that the bot is typing to let user know that it is working.
+#     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+
+#     res = requests.get(
+#         url=os.environ["PALPITEIRO_API_URL"],
+#         params={
+#             "code": os.environ["PALPITEIRO_API_KEY"],
+#             "price": extract_price(text),
+#             "scheme": extract_scheme(text),
+#             "algorithm": ALGORITHM,
+#         },
+#     )
+
+#     answer = format_answer(res.json())
+
+#     bot.sendMessage(chat_id=chat_id, text=answer)
+#     logging.info("Message sent to ID %s: %s", chat_id, answer)
+
+#     return func.HttpResponse("Success", status_code=200)
