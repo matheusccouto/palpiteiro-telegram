@@ -84,14 +84,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             chat_id=chat_id,
             text=f"Fala {name}! Quantas cartoletas você está disposto a gastar?",
         )
-        return func.HttpResponse("Success", status_code=200)
+        return func.HttpResponse(status_code=200)
 
     if price <= 0:
         bot.sendMessage(
             chat_id=chat_id,
             text=f"{price} não é uma quantidade válida. Preciso de um número positivo.",
         )
-        return func.HttpResponse("Success", status_code=200)
+        return func.HttpResponse(status_code=200)
 
     # Shows that the bot is typing to let user know that it is working.
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
@@ -106,5 +106,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         },
     )
 
+    if res.status_code != 200:
+        bot.sendMessage(
+            chat_id=chat_id,
+            text=(
+                "Aconteceu algo inesperado =(. "
+                "Você poderia mandar um print para @matheusdocouto?"
+            ),
+        )
+        return func.HttpResponse(status_code=200)
+
     bot.sendMessage(chat_id=chat_id, text=format_answer(res.json()))
-    return func.HttpResponse("Success", status_code=200)
+    return func.HttpResponse(status_code=200)
