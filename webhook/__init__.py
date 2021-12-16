@@ -116,7 +116,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     bot.sendMessage(chat_id=chat_id, text=answer)
     logging.info("Message sent to ID %s: %s", chat_id, answer)
 
-    update.stop()
-    update.is_idle = False
-
     return func.HttpResponse(status_code=200)
