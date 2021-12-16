@@ -98,13 +98,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         url=os.environ["PALPITEIRO_API_URL"],
         params={
             "code": os.environ["PALPITEIRO_API_KEY"],
-            "price": extract_price(text),
+            "price": "100", # extract_price(text),
             "scheme": extract_scheme(text),
             "algorithm": ALGORITHM,
         },
     )
 
-    bot.sendMessage(chat_id=163127655, text="It works")
+    bot.sendMessage(chat_id=163127655, text=str(res.json()[:4096]))
     return func.HttpResponse("Success", status_code=200)
 
 
