@@ -1,9 +1,6 @@
 """Unit tests  for main script."""
 
-import json
 import os
-
-import pytest
 
 import webhook
 from . import helper
@@ -17,18 +14,21 @@ class TestFunction:
     @staticmethod
     def test_function():
         """Test function normal usage."""
-        with open(os.path.join(THIS_FOLDER, "data", "request.json")) as file:
-            body = json.load(file)
+        body = helper.read_json(os.path.join(THIS_FOLDER, "data", "request.json"))
         req = helper.MockRequest(body=body)
         res = webhook.main(req)
         assert res.status_code == 200
 
-    # @staticmethod
-    # def test_invalid_args():
-    #     """Test passing invalid arguments."""
-    #     args_list = []
 
-    #     for args in args_list:
-    #         req = helper.MockRequest(args)
-    #         with pytest.raises(ValueError):
-    #             function.main(req)
+class TestFormatSquad:
+    """Test function that format the squad message."""
+
+    @classmethod
+    def setup_class(cls):
+        """Setup class."""
+        res = helper.read_json(os.path.join(THIS_FOLDER, "data", "response.json"))
+        cls.formatted = webhook.format_answer(res)
+
+    def test_length(self):
+        """Test function normal usage."""
+        assert len(self.formatted) < 4096

@@ -1,8 +1,15 @@
 """Testing helper functions."""
 
+import json
 from typing import Optional, Dict, Any
 
 from werkzeug.datastructures import MultiDict
+
+
+def read_json(path):
+    """Read JSON file."""
+    with open(path) as file:
+        return json.load(file)
 
 
 class MockRequest:
