@@ -45,10 +45,12 @@ def configure_telegram():
     return telegram.Bot(TELEGRAM_TOKEN)
 
 
-def is_number(string):
+def is_number(value):
     """Check if string is a number."""
+    if value is None:
+        return False
     try:
-        float(string)
+        float(value)
         return True
     except ValueError:
         return False
