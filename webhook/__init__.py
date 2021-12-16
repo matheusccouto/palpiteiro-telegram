@@ -85,6 +85,7 @@ def format_answer(data):
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     """Runs the Telegram webhook."""
+    print(req.get_json())
     bot = configure_telegram()
     bot.sendMessage(chat_id=163127655, text="It works")
     return func.HttpResponse("Success", status_code=200)
