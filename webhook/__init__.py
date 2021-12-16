@@ -61,7 +61,7 @@ def extract_price(text):
             status_code=400,
         )
 
-    return price
+    return str(price)
 
 
 def extract_scheme(text):
@@ -90,6 +90,19 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     update = telegram.Update.de_json(req.get_json(), bot)
     chat_id = update.effective_message.chat.id
     text = update.effective_message.text
+
+    # Shows that the bot is typing to let user know that it is working.
+    bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+
+    res = requests.get(
+        url=os.environ["PALPITEIRO_API_URL"],
+        params={
+            "code": os.environ["PALPITEIRO_API_KEY"],
+            "price": extract_price(text),
+            "scheme": extract_scheme(text),
+            "algorithm": ALGORITHM,
+        },
+    )
 
     bot.sendMessage(chat_id=163127655, text="It works")
     return func.HttpResponse("Success", status_code=200)
