@@ -104,7 +104,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         },
     )
 
-    bot.sendMessage(chat_id=163127655, text=str(res.json()[:4096]))
+    bot.sendMessage(chat_id=163127655, text=str(res.json()[:100]))
     return func.HttpResponse("Success", status_code=200)
 
 
