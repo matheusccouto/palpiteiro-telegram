@@ -96,7 +96,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if text == "/start":
         bot.sendMessage(chat_id=chat_id, text="Até quanto você está disposto a pagar?")
-        return func.HttpResponse(status_code=200)
+        return func.HttpResponse("Success", status_code=200)
 
     # Shows that the bot is typing to let user know that it is working.
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
@@ -116,4 +116,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     bot.sendMessage(chat_id=chat_id, text=answer)
     logging.info("Message sent to ID %s: %s", chat_id, answer)
 
-    return func.HttpResponse(status_code=200)
+    return func.HttpResponse("Success", status_code=200)
