@@ -45,28 +45,13 @@ def configure_telegram():
     return telegram.Bot(TELEGRAM_TOKEN)
 
 
-def extract_price(text):
-    """Extract price from text."""
+def is_number(string):
+    """Check if string is a number."""
     try:
-        price = float(text)
+        float(string)
+        return True
     except ValueError:
-        return func.HttpResponse(
-            f"Text should be a number representing the price, but received {text}.",
-            status_code=400,
-        )
-
-    if price <= 0:
-        return func.HttpResponse(
-            f"Price should be positive, but received {text}.",
-            status_code=400,
-        )
-
-    return str(price)
-
-
-def extract_scheme(text):
-    """Extract price from text."""
-    return "442"  # FIXME To be developed
+        return False
 
 
 def format_answer(data):
@@ -90,6 +75,23 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     update = telegram.Update.de_json(req.get_json(), bot)
     chat_id = update.effective_message.chat.id
     text = update.effective_message.text
+    name = update.effective_message.chat.first_name
+
+    if is_number(text):
+        price = float(text)
+    else:
+        bot.sendMessage(
+            chat_id=chat_id,
+            text=f"Fala {name}! Quantas cartoletas você está disposto a gastar?",
+        )
+        return func.HttpResponse("Success", status_code=200)
+
+    if price <= 0:
+        bot.sendMessage(
+            chat_id=chat_id,
+            text=f"{price} não é uma quantidade válida. Preciso de um número positivo.",
+        )
+        return func.HttpResponse("Success", status_code=200)
 
     # Shows that the bot is typing to let user know that it is working.
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
@@ -98,8 +100,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         url=os.environ["PALPITEIRO_API_URL"],
         params={
             "code": os.environ["PALPITEIRO_API_KEY"],
-            "price": "100",  # extract_price(text),
-            "scheme": extract_scheme(text),
+            "price": str(price),
+            "scheme": "442",
             "algorithm": ALGORITHM,
         },
     )
