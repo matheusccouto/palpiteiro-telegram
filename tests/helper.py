@@ -8,7 +8,7 @@ from werkzeug.datastructures import MultiDict
 
 def read_json(path):
     """Read JSON file."""
-    with open(path) as file:
+    with open(path, encoding="utf-8") as file:
         return json.load(file)
 
 

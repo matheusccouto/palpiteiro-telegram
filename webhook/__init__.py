@@ -36,13 +36,11 @@ def configure_telegram():
 
     Returns a bot instance.
     """
-
-    TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
-    if not TELEGRAM_TOKEN:
+    if not os.environ["TELEGRAM_TOKEN"]:
         logging.error("The TELEGRAM_TOKEN must be set")
         raise NotImplementedError
 
-    return telegram.Bot(TELEGRAM_TOKEN)
+    return telegram.Bot(os.environ["TELEGRAM_TOKEN"])
 
 
 def is_number(value):
@@ -58,16 +56,28 @@ def is_number(value):
 
 def format_answer(data):
     """Format answer with squad will be sent to the user."""
-    data = sorted(data, key=lambda x: POS_ORDER[x["position"]])
-    return "\n".join(
+    players = sorted(data["players"], key=lambda x: POS_ORDER[x["position"]])
+    players_str = "\n".join(
         [
             f"{POS_MAP[row['position']]}  "
             f"{row['name']}  "
             f"({row['club_name']})  "
             f"C${row['price']}"
-            for row in data
+            for row in players
         ]
     )
+
+    bench = sorted(data["bench"], key=lambda x: POS_ORDER[x["position"]])
+    bench_str = "\n".join(
+        [
+            f"{POS_MAP[row['position']]}  "
+            f"{row['name']}  "
+            f"({row['club_name']})  "
+            f"C${row['price']}"
+            for row in bench
+        ]
+    )
+    return f"Titulares:\n{players_str}\n\nBanco de Reservas\n{bench_str}"
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
