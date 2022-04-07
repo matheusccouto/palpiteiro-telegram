@@ -77,7 +77,7 @@ def format_answer(data):
             for row in bench
         ]
     )
-    return f"Titulares:\n{players_str}\n\nBanco de Reservas\n{bench_str}"
+    return f"Titulares:\n{players_str}\n\nBanco de Reservas:\n{bench_str}"
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -115,7 +115,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             "price": price,
             "scheme": "433",
             "algorithm": ALGORITHM,
-            "max_players_per_club": 4,
+            "max_players_per_club": 5,
         },
     )
 
