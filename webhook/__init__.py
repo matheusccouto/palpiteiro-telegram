@@ -7,7 +7,7 @@ import azure.functions as func
 import requests
 import telegram
 
-ALGORITHM = "greedy"
+ALGORITHM = "genetic"
 POS_MAP = {
     "goalkeeper": "GOL",
     "fullback": "LAT",
@@ -103,8 +103,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         params={
             "code": os.environ["PALPITEIRO_API_KEY"],
             "price": str(price),
-            "scheme": "442",
+            "scheme": "433",
             "algorithm": ALGORITHM,
+            "max_players_per_club": 4,
         },
     )
 
