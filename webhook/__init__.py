@@ -102,7 +102,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         url=os.environ["PALPITEIRO_API_URL"],
         params={
             "code": os.environ["PALPITEIRO_API_KEY"],
-            "price": str(price),
+            "price": price,
             "scheme": "433",
             "algorithm": ALGORITHM,
             "max_players_per_club": 4,
